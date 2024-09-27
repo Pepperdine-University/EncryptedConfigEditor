@@ -28,6 +28,10 @@ namespace EncryptedConfigEditor
         {
             InitializeComponent();
             ConfigureLexer();
+        }
+
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
             PromptForConfigFile();
         }
 

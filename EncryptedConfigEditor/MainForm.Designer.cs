@@ -90,13 +90,15 @@ namespace EncryptedConfigEditor
             // 
             // ConfigContents
             // 
+            this.ConfigContents.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ConfigContents.LexerName = null;
             this.ConfigContents.Location = new System.Drawing.Point(20, 111);
             this.ConfigContents.Name = "ConfigContents";
             this.ConfigContents.Size = new System.Drawing.Size(480, 157);
             this.ConfigContents.TabIndex = 8;
             this.ConfigContents.TextChanged += new System.EventHandler(this.ConfigContents_TextChanged);
-            this.ConfigContents.Anchor = AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom | AnchorStyles.Left;
             // 
             // MainForm
             // 
@@ -110,6 +112,7 @@ namespace EncryptedConfigEditor
             this.Controls.Add(this.Browse);
             this.Name = "MainForm";
             this.Text = "Encrypted Config Editor";
+            this.Shown += new System.EventHandler(this.MainForm_Shown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
