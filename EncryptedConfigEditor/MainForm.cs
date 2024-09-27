@@ -92,11 +92,19 @@ namespace EncryptedConfigEditor
             Sections.Items.Clear();
             ConfigContents.Clear();
             List<string> sectionNames = new List<string>();
-            foreach (ConfigurationSection section in _config.Sections)
+            foreach (string sectionName in _config.Sections.Keys)
             {
-                if (!string.IsNullOrWhiteSpace(section.SectionInformation.GetRawXml()))
+                try
                 {
-                    sectionNames.Add(section.SectionInformation.Name);
+                    ConfigurationSection section = _config.GetSection(sectionName);
+                    if (!string.IsNullOrWhiteSpace(section.SectionInformation.GetRawXml()))
+                    {
+                        sectionNames.Add(section.SectionInformation.Name);
+                    }
+                }
+                catch (ConfigurationErrorsException)
+                {
+                    // Ignore sections that can't be read
                 }
             }
             sectionNames.Sort(StringComparer.OrdinalIgnoreCase);
