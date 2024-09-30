@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -106,9 +107,13 @@ namespace EncryptedConfigEditor
                         sectionNames.Add(section.SectionInformation.Name);
                     }
                 }
-                catch (ConfigurationErrorsException)
+                catch (ConfigurationErrorsException ex)
                 {
-                    // Ignore sections that can't be read
+                    if (ex.InnerException is CryptographicException)
+                    {
+                        ShowErrorMessage($"The section '{sectionName}' could not be decrypted.\r\n\r\n{ex.InnerException.Message}");
+                    }
+                    // Other sections that can't be read can be ignored
                 }
             }
             sectionNames.Sort(StringComparer.OrdinalIgnoreCase);
