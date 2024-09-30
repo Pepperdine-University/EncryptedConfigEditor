@@ -6,8 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  build:
-
+  release:
     runs-on: windows-latest
     
     env:
@@ -28,7 +27,27 @@ jobs:
     - name: Build the application
       run: msbuild $env:Solution_Name /p:Configuration=Release
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        path: EncryptedConfigEditor\bin\Release
+        tag_name: ${{ github.ref }}
+        release_name: ${{ github.ref_name }}
+        body: Official release of ${{ github.ref_name }}
+        draft: false
+        prerelease: false
+
+    - name: Zip Release Folder
+      run: Compress-Archive -Path EncryptedConfigEditor\bin\Release\* -DestinationPath EncryptedConfigEditor\bin\EncryptedConfigEditor-${{ github.ref_name }}.zip
+
+    - name: Upload Release Assets
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: EncryptedConfigEditor\bin\EncryptedConfigEditor-${{ github.ref_name }}.zip
+        asset_name: EncryptedConfigEditor-${{ github.ref_name }}.zip
+        asset_content_type: application/zip
