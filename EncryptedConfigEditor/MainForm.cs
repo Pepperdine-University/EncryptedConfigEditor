@@ -170,7 +170,7 @@ namespace EncryptedConfigEditor
 
                 if (section?.SectionInformation.IsProtected == false)
                 {
-                    section.SectionInformation.ProtectSection("RsaProtectedConfigurationProvider");
+                    section.SectionInformation.ProtectSection("DataProtectionConfigurationProvider");
                     section.SectionInformation.ForceSave = true;
                 }
             }
